@@ -31,7 +31,7 @@ class SafetyTestApp {
     constructor() {
         this.currentQuestion = 0;
         this.answers = [];
-        this.questions = this.generateQuestions();
+        this.questions = [];
         this.testStarted = false;
         this.testCompleted = false;
         this.init();
@@ -39,121 +39,6 @@ class SafetyTestApp {
 
     init() {
         this.setupEventListeners();
-    }
-
-    generateQuestions() {
-        return [
-                // {
-            //     question: "Какие требования предъявляются к средствам индивидуальной защиты (СИЗ)?",
-            //     options: [
-            //         "Должны быть модными и удобными",
-            //         "Должны соответствовать характеру и условиям труда, иметь сертификацию",
-            //         "Должны быть недорогими и доступными",
-            //         "Должны нравиться работникам"
-            //     ],
-            //     correct: 1,
-            //     explanation: "Согласно Трудовому кодексу РФ, СИЗ должны соответствовать характеру и условиям труда, иметь сертификаты соответствия."
-            // },
-            // {
-            //     question: "Что необходимо проверить перед началом работы с оборудованием?",
-            //     options: [
-            //         "Только внешний вид оборудования",
-            //         "Исправность механизмов, защитных ограждений, электропроводки, систем безопасности",
-            //         "Только наличие масла и топлива",
-            //         "Только чистоту оборудования"
-            //     ],
-            //     correct: 1,
-            //     explanation: "Предрейсовый осмотр должен включать проверку всех критических систем оборудования для обеспечения безопасной работы."
-            // },
-            // {
-            //     question: "Какие действия необходимо предпринять при аварийной ситуации?",
-            //     options: [
-            //         "Продолжить работу и сообщить руководству в конце смены",
-            //         "Прекратить работу, обесточить оборудование, оказать помощь, сообщить руководству",
-            //         "Уйти с рабочего места и ждать помощи",
-            //         "Попытаться устранить неисправность самостоятельно"
-            //     ],
-            //     correct: 1,
-            //     explanation: "При аварии необходимо немедленно прекратить работу, обесточить оборудование, оказать первую помощь и сообщить руководству."
-            // },
-            // {
-            //     question: "Как часто должно проводиться обучение по охране труда?",
-            //     options: [
-            //         "Один раз при поступлении на работу",
-            //         "Раз в год с проведением проверки знаний",
-            //         "Только при смене должности",
-            //         "По желанию работника"
-            //     ],
-            //     correct: 1,
-            //     explanation: "Обучение по охране труда проводится регулярно, не реже 1 раза в год с обязательной проверкой знаний."
-            // },
-            // {
-            //     question: "Что такое локаут/тагаут (LOTO)?",
-            //     options: [
-            //         "Метод ускорения работы",
-            //         "Процедура блокировки энергии для безопасного обслуживания оборудования",
-            //         "Система учета рабочего времени",
-            //         "Метод контроля качества"
-            //     ],
-            //     correct: 1,
-            //     explanation: "LOTO - это процедура контроля опасных энергий путем блокировки и маркировки оборудования во время обслуживания."
-            // },
-            // {
-            //     question: "Какие требования к освещению рабочих мест?",
-            //     options: [
-            //         "Достаточно естественного света",
-            //         "Освещенность должна соответствовать нормам для данного вида работ",
-            //         "Главное, чтобы было видно",
-            //         "Освещение не влияет на безопасность"
-            //     ],
-            //     correct: 1,
-            //     explanation: "Освещенность рабочих мест должна соответствовать санитарным нормам и правилам в зависимости от характера работ."
-            // },
-            // {
-            //     question: "Что делать при обнаружении неисправности оборудования?",
-            //     options: [
-            //         "Продолжить работу и не обращать внимания",
-            //         "Прекратить работу и сообщить руководству или ответственному лицу",
-            //         "Попытаться починить самому",
-            //         "Попросить коллег помочь"
-            //     ],
-            //     correct: 1,
-            //     explanation: "При обнаружении неисправности необходимо немедленно прекратить работу и сообщить об этом ответственному лицу."
-            // },
-            // {
-            //     question: "Какие основные принципы безопасного поведения на рабочем месте?",
-            //     options: [
-            //         "Быстрота и эффективность",
-            //         "Соблюдение инструкций, использование СИЗ, внимательность",
-            //         "Минимальное общение с коллегами",
-            //         "Работа в одиночку"
-            //     ],
-            //     correct: 1,
-            //     explanation: "Безопасное поведение включает соблюдение инструкций, правильное использование СИЗ, внимательность и ответственность."
-            // },
-            // {
-            //     question: "Что такое горячие работы?",
-            //     options: [
-            //         "Работа при высокой температуре окружающей среды",
-            //         "Работы с открытым огнем, нагревом, сваркой",
-            //         "Работа в жаркий летний день",
-            //         "Работа на кухне"
-            //     ],
-            //     correct: 1,
-            //     explanation: "Горячие работы - это работы с открытым огнем, нагревом, сваркой, резкой металла и другие работы с повышенной пожарной опасностью."
-            // },
-            {
-                question: "Какие меры предосторожности при работе с химическими веществами?",
-                options: [
-                    "Работать в хорошо проветриваемом помещении",
-                    "Использовать соответствующие СИЗ, знать свойства веществ, иметь инструкции",
-                    "Работать быстро и эффективно",
-                    "Просто быть осторожным"
-                ],
-                correct: 1,
-                explanation: "При работе с химическими веществами необходимо использовать соответствующие СИЗ, знать свойства веществ, иметь инструкции и средства первой помощи."
-            }
-        ];
     }
 
     setupEventListeners() {
@@ -169,19 +54,81 @@ class SafetyTestApp {
         });
     }
 
-    startTest() {
+    // startTest() {
+    //     this.testStarted = true;
+    //     this.currentQuestion = 0;
+    //     this.answers = [];
+        
+    //     document.getElementById('startScreen').classList.add('hidden');
+    //     document.getElementById('testProgress').classList.remove('hidden');
+    //     document.getElementById('questionCard').classList.remove('hidden');
+    //     document.getElementById('totalQuestion').textContent = this.questions.length;
+        
+    //     this.showQuestion();
+    //     this.updateProgress();
+    // }
+
+    async startTest() {
+    const startScreen = document.getElementById('startScreen');
+    startScreen.innerHTML = '<p class="text-center text-lg">Загрузка вопросов...</p>';
+    
+    try {
+        const response = await fetch('http://192.168.218.9:8000/api/tests/generate/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ questions_count: 10 })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Ошибка сервера: ${response.status}`);
+        }
+
+        const data = await response.json();
+        this.questions = data.questions;
+
+        if (!this.questions || this.questions.length === 0) {
+            throw new Error('Сервер вернул пустой список вопросов');
+        }
+
         this.testStarted = true;
         this.currentQuestion = 0;
         this.answers = [];
-        
-        document.getElementById('startScreen').classList.add('hidden');
+
+        startScreen.classList.add('hidden');
         document.getElementById('testProgress').classList.remove('hidden');
         document.getElementById('questionCard').classList.remove('hidden');
         document.getElementById('totalQuestion').textContent = this.questions.length;
-        
+
         this.showQuestion();
         this.updateProgress();
+
+    } catch (error) {
+        console.error('Ошибка загрузки вопросов:', error);
+        this.showNotification('Не удалось загрузить вопросы. Проверьте подключение.');
+        startScreen.innerHTML = `
+            <img class="hero-logo" src="../media/main-logo.png" alt="main-logo">
+            <h1 class="main-text">Тестирование по охране труда</h1>
+            <p class="text">Проверьте свои знания в области охраны труда.</p>
+            <div class="desc-test">
+                <div class="text-center">
+                    <h1>10</h1>
+                    <p>Вопросов</p>
+                </div>
+                <div class="text-center">
+                    <h1>15 мин</h1>
+                    <p>Время на тест</p>
+                </div>
+            </div>
+            <div class="button-center">
+                <button onclick="testApp.startTest()" class="px-8 py-4 rounded-full text-white font-semibold hover:opacity-90 transition-all transform hover:scale-105" style="background-color: var(--amber-accent);">
+                    Начать тестирование
+                </button>
+            </div>
+        `;
     }
+}
 
     showQuestion() {
         const question = this.questions[this.currentQuestion];
@@ -264,27 +211,50 @@ class SafetyTestApp {
         const progress = ((this.currentQuestion + 1) / this.questions.length) * 100;
         document.getElementById('progressBar').value = this.currentQuestion;
         document.getElementById('currentQuestion').textContent = this.currentQuestion + 1;
-        document.getElementById('totalQuestions').textContent = this.questions.length;
+        document.getElementById('totalQuestion').textContent = this.questions.length;
     }
 
-    completeTest() {
-        this.testCompleted = true;
-        
-        let correctAnswers = 0;
-        this.questions.forEach((question, index) => {
-            if (this.answers[index] === question.correct) {
-                correctAnswers++;
-            }
+    async completeTest() {
+    this.testCompleted = true;
+
+    let correctAnswers = 0;
+    this.questions.forEach((question, index) => {
+        if (this.answers[index] === question.correct) {
+            correctAnswers++;
+        }
+    });
+
+    const score = Math.round((correctAnswers / this.questions.length) * 100);
+
+    // 👇 Отправляем данные о прохождении теста
+    try {
+        const analyticsResponse = await fetch('http://192.168.218.9:8000/api/analytics/tests/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                questions_count: this.questions.length,
+                correct_answers: correctAnswers
+            })
         });
-        
-        const score = Math.round((correctAnswers / this.questions.length) * 100);
-        
-        document.getElementById('questionCard').classList.add('hidden');
-        document.getElementById('testProgress').classList.add('hidden');
-        document.getElementById('resultsCard').classList.remove('hidden');
-        
-        this.displayResults(score, correctAnswers);
+
+        if (!analyticsResponse.ok) {
+            console.warn('Не удалось сохранить результат теста в аналитику');
+            // Можно показать уведомление, но не останавливать отображение результатов
+        }
+    } catch (error) {
+        console.error('Ошибка при отправке аналитики теста:', error);
+        // Игнорируем ошибку, чтобы пользователь всё равно увидел результат
     }
+
+    // 👇 Отображаем результаты
+    document.getElementById('questionCard').classList.add('hidden');
+    document.getElementById('testProgress').classList.add('hidden');
+    document.getElementById('resultsCard').classList.remove('hidden');
+
+    this.displayResults(score, correctAnswers);
+}
 
     displayResults(score, correctAnswers) {
         const resultIcon = document.getElementById('resultIcon');
@@ -303,17 +273,90 @@ class SafetyTestApp {
                 easing: 'easeOutQuad'
             });
         }
+    toggleReview() {
+    const reviewCard = document.getElementById('reviewCard');
+    const reviewContent = document.getElementById('reviewContent');
+    const button = event.currentTarget;
+
+    if (reviewCard.classList.contains('hidden')) {
+        // Показываем разбор
+        reviewContent.innerHTML = '';
+
+        this.questions.forEach((q, idx) => {
+            const userAnswer = this.answers[idx];
+            const isCorrect = userAnswer === q.correct;
+
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'glass-effect p-4 rounded-xl';
+
+            questionDiv.innerHTML = `
+                <div class="mb-2">
+                    <strong>${idx + 1}. ${q.question}</strong>
+                </div>
+                <div class="ml-4 space-y-2">
+                    ${q.options.map((opt, optIdx) => {
+                        const isSelected = userAnswer === optIdx;
+                        const isCorrectAnswer = optIdx === q.correct;
+                        let optClass = 'p-2 rounded border';
+
+                        if (isSelected && isCorrectAnswer) {
+                            optClass += ' bg-green-200 border-green-500';
+                        } else if (isSelected && !isCorrectAnswer) {
+                            optClass += ' bg-red-200 border-red-500';
+                        } else if (isCorrectAnswer) {
+                            optClass += ' bg-green-100 border-green-400';
+                        } else {
+                            optClass += ' border-gray-200';
+                        }
+
+                        return `
+                            <div class="${optClass}">
+                                <span class="font-bold mr-2">${String.fromCharCode(65 + optIdx)}.</span>
+                                <span>${opt}</span>
+                                ${isCorrectAnswer ? '<span class="ml-2 text-green-700 font-semibold">✓ Правильно</span>' : ''}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            reviewContent.appendChild(questionDiv);
+        });
+
+        reviewCard.classList.remove('hidden');
+        button.textContent = 'Скрыть ответы';
+    } else {
+        // Скрываем разбор
+        reviewCard.classList.add('hidden');
+        button.textContent = 'Показать ответы';
+    }
+}
 
     restartTest() {
-        this.testStarted = false;
-        this.testCompleted = false;
-        this.currentQuestion = 0;
-        this.answers = [];
-        
-        document.getElementById('resultsCard').classList.add('hidden');
-        document.getElementById('certificateCard').classList.add('hidden');
-        document.getElementById('startScreen').classList.remove('hidden');
+    this.testStarted = true;
+    this.testCompleted = false;
+    this.currentQuestion = 0;
+    this.answers = []; // Сбрасываем только ответы
+
+    document.getElementById('resultsCard').classList.add('hidden');
+    document.getElementById('testProgress').classList.remove('hidden');
+    document.getElementById('questionCard').classList.remove('hidden');
+
+    this.showQuestion();
+    this.updateProgress();
     }
+    startNewTest() {
+    this.testStarted = false;
+    this.testCompleted = false;
+    this.currentQuestion = 0;
+    this.answers = [];
+    this.questions = []; // Очищаем вопросы
+
+    document.getElementById('resultsCard').classList.add('hidden');
+    document.getElementById('startScreen').classList.remove('hidden');
+
+    // Теперь можно снова нажать «Начать тест» → вызовется startTest() → загрузятся новые вопросы
+}
 
     showNotification(message) {
         const notification = document.createElement('div');

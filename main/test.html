@@ -17,17 +17,17 @@
             <img class="main-icon" src="../media/main-logo.png" alt="main-logo">
         </div>
 
-        <a href="index.html" class="nav-item">
+        <a href="./index.html" class="nav-item">
             <img class="icon" src="../media/home-icon.png" alt="home">
             <span>Главная страница</span>
         </a>
         
-        <a href="admin.html" class="nav-item">
+        <a href="./admin.html" class="nav-item">
             <img class="icon" src="../media/admin-logo.png" alt="admin">
             <span>Панель админ</span>
         </a>
         
-        <a href="test.html" class="nav-item">
+        <a href="./test.html" class="nav-item">
             <img class="icon" src="../media/test.png" alt="test">
             <span>Тесты</span>
         </a>
@@ -63,7 +63,7 @@
 
             <div id="testProgress" class="progress-test hidden">
                     <span class="text-progress">Прогресс тестирования</span>
-                    <span class="text-progress-count"> <span id="currentQuestion">1</span> из <span id="totalQuestion"></span></span>
+                    <span class="text-progress-count"> <span id="currentQuestion">1</span> из <span id="totalQuestion">10</span></span>
                     <progress id="progressBar" class="progBar rounded-full" max="10" value="0"></progress>
             </div>
 
@@ -106,12 +106,19 @@
                         <div class="text-sm text-white-600">Вопросов</div>
                     </div>
                 </div>
+                <div id="reviewCard" class="hidden mt-8 glass-effect rounded-2xl p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Разбор ответов</h3>
+                    <div id="reviewContent" class="space-y-6"></div>
+                </div>
 
                 <div class="block-button">
+                    <button onclick="testApp.toggleReview()" class="button-next finale-button">
+                        Показать ответы
+                    </button>
                     <button onclick="testApp.restartTest()" class="button-next finale-button">
                         Пройти еще раз
                     </button>
-                    <button onclick="testApp.restartTest()" class="button-next finale-button">
+                    <button onclick="testApp.startNewTest()" class="button-next finale-button">
                         Новый тест
                     </button>
                 </div>

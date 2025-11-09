@@ -98,6 +98,11 @@ class SafetyInstructorApp {
                 console.log('Результат получен:', event);
                 const transcript = event.results[0][0].transcript; // Получаем текст из результата
                 console.log('Распознанный текст:', transcript);
+                console.log('Распознанный текст:', JSON.stringify(transcript));
+                if (!transcript) {
+                    console.warn('Пустой результат распознавания');
+                    return;
+                }
                 const messageInput = document.getElementById('messageInput');
                 if (messageInput) {
                     messageInput.value = transcript; // Вставляем распознанный текст в поле ввода
