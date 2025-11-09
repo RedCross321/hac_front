@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестирование по охране труда - ВП-ОТ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/test.css">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <img class="main-icon" src="../media/main-logo.png" alt="main-logo">
+        </div>
+
+        <a href="index.html" class="nav-item">
+            <img class="icon" src="../media/home-icon.png" alt="home">
+            <span>Главная страница</span>
+        </a>
+        
+        <div class="nav-item">
+            <img class="icon" src="../media/admin-logo.png" alt="admin">
+            <span>Панель админ</span>
+        </div>
+        
+        <a href="test.html" class="nav-item">
+            <img class="icon" src="../media/test.png" alt="test">
+            <span>Тесты</span>
+        </a>
+    </div>
+
+    <main class="main-content">
+            <div id="startScreen" class="start-test">
+                    <img class="hero-logo" src="../media/main-logo.png" alt="main-logo">
+                    <h1 class="main-text">Тестирование по охране труда</h1>
+                    <p class="text">
+                        Проверьте свои знания в области охраны труда. 
+                    </p>
+
+                <div class="desc-test">
+                    <div class="text-center">
+                        <h1>10</h1>
+                        <p>Вопросов</p>
+                    </div>
+                    <div class="text-center">
+                        <h1>15 мин</h1>
+                        <p>Время на тест</p>
+                    </div>
+                </div>
+
+                <div class="button-center">
+                    <button onclick="testApp.startTest()" class="px-8 py-4 rounded-full text-white font-semibold hover:opacity-90 transition-all transform hover:scale-105" style="background-color: var(--amber-accent);">
+                        Начать тестирование
+                    </button>
+                </div>
+            </div>
+
+            <div id="testProgress" class="progress-test hidden">
+                    <span class="text-progress">Прогресс тестирования</span>
+                    <span class="text-progress-count"> <span id="currentQuestion">1</span> из <span id="totalQuestion"></span></span>
+                    <progress id="progressBar" class="progBar rounded-full" max="10" value="0"></progress>
+            </div>
+
+            <div id="questionCard" class="hidden glass-effect rounded-2xl p-8 mb-6">
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-4">
+                        <span id="questionNumber">1.</span> <span id="questionText"></span>
+                    </h3>
+                    <div class="space-y-3" id="answerOptions">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <!-- class="px-6 py-2 rounded-lg border-2 border-gray-300 hover:bg-gray-50 text-gray-600 transition-colors" -->
+                    <button onclick="testApp.previousQuestion()" id="prevBtn" class="button-last" disabled>
+                        Предыдущий
+                    </button>
+                    <!-- px-6 py-2 rounded-lg text-white hover:opacity-90 transition-opacity -->
+                    <button onclick="testApp.nextQuestion()" id="nextBtn" class="button-next">
+                        Следующий
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultsCard" class="hidden glass-effect rounded-2xl p-8 mb-6">
+                <div class="text-center mb-8">
+                    <div class="w-24 h-24 mx-auto mb-4 rounded-full flex items-center justify-center" id="resultIcon">
+                    </div>
+                    <h2 class="text-3xl font-bold mb-4" id="resultTitle">Результаты тестирования</h2>
+                    <p class="text-lg text-gray-600" id="resultMessage">Подводим итоги...</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="text-center p-6 rounded-lg" style="background-color: var(--light-sage);">
+                        <div class="text-4xl font-bold mb-2" id="scoreDisplay" style="color: var(--primary-green);">0%</div>
+                        <div class="text-sm text-gray-600">Правильных ответов</div>
+                    </div>
+                    <div class="text-center p-6 rounded-lg" style="background-color: var(--light-sage);">
+                        <div class="text-4xl font-bold mb-2" id="correctCount" style="color: var(--primary-green);">0/10</div>
+                        <div class="text-sm text-gray-600">Вопросов</div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="testApp.restartTest()" class="px-6 py-3 rounded-lg border-2 border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors mr-4">
+                        Пройти еще раз
+                    </button>
+                </div>
+            </div>
+    </main>
+
+    <script>
+        // Safety Test Application
+        class SafetyTestApp {
+            constructor() {
+                this.currentQuestion = 0;
+                this.answers = [];
+                this.questions = this.generateQuestions();
+                this.testStarted = false;
+                this.testCompleted = false;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+            }
+
+            generateQuestions() {
+                return [
+                    {
+                        question: "Какие требования предъявляются к средствам индивидуальной защиты (СИЗ)?",
+                        options: [
+                            "Должны быть модными и удобными",
+                            "Должны соответствовать характеру и условиям труда, иметь сертификацию",
+                            "Должны быть недорогими и доступными",
+                            "Должны нравиться работникам"
+                        ],
+                        correct: 1,
+                        explanation: "Согласно Трудовому кодексу РФ, СИЗ должны соответствовать характеру и условиям труда, иметь сертификаты соответствия."
+                    },
+                    {
+                        question: "Что необходимо проверить перед началом работы с оборудованием?",
+                        options: [
+                            "Только внешний вид оборудования",
+                            "Исправность механизмов, защитных ограждений, электропроводки, систем безопасности",
+                            "Только наличие масла и топлива",
+                            "Только чистоту оборудования"
+                        ],
+                        correct: 1,
+                        explanation: "Предрейсовый осмотр должен включать проверку всех критических систем оборудования для обеспечения безопасной работы."
+                    },
+                    {
+                        question: "Какие действия необходимо предпринять при аварийной ситуации?",
+                        options: [
+                            "Продолжить работу и сообщить руководству в конце смены",
+                            "Прекратить работу, обесточить оборудование, оказать помощь, сообщить руководству",
+                            "Уйти с рабочего места и ждать помощи",
+                            "Попытаться устранить неисправность самостоятельно"
+                        ],
+                        correct: 1,
+                        explanation: "При аварии необходимо немедленно прекратить работу, обесточить оборудование, оказать первую помощь и сообщить руководству."
+                    },
+                    {
+                        question: "Как часто должно проводиться обучение по охране труда?",
+                        options: [
+                            "Один раз при поступлении на работу",
+                            "Раз в год с проведением проверки знаний",
+                            "Только при смене должности",
+                            "По желанию работника"
+                        ],
+                        correct: 1,
+                        explanation: "Обучение по охране труда проводится регулярно, не реже 1 раза в год с обязательной проверкой знаний."
+                    },
+                    {
+                        question: "Что такое локаут/тагаут (LOTO)?",
+                        options: [
+                            "Метод ускорения работы",
+                            "Процедура блокировки энергии для безопасного обслуживания оборудования",
+                            "Система учета рабочего времени",
+                            "Метод контроля качества"
+                        ],
+                        correct: 1,
+                        explanation: "LOTO - это процедура контроля опасных энергий путем блокировки и маркировки оборудования во время обслуживания."
+                    },
+                    {
+                        question: "Какие требования к освещению рабочих мест?",
+                        options: [
+                            "Достаточно естественного света",
+                            "Освещенность должна соответствовать нормам для данного вида работ",
+                            "Главное, чтобы было видно",
+                            "Освещение не влияет на безопасность"
+                        ],
+                        correct: 1,
+                        explanation: "Освещенность рабочих мест должна соответствовать санитарным нормам и правилам в зависимости от характера работ."
+                    },
+                    {
+                        question: "Что делать при обнаружении неисправности оборудования?",
+                        options: [
+                            "Продолжить работу и не обращать внимания",
+                            "Прекратить работу и сообщить руководству или ответственному лицу",
+                            "Попытаться починить самому",
+                            "Попросить коллег помочь"
+                        ],
+                        correct: 1,
+                        explanation: "При обнаружении неисправности необходимо немедленно прекратить работу и сообщить об этом ответственному лицу."
+                    },
+                    {
+                        question: "Какие основные принципы безопасного поведения на рабочем месте?",
+                        options: [
+                            "Быстрота и эффективность",
+                            "Соблюдение инструкций, использование СИЗ, внимательность",
+                            "Минимальное общение с коллегами",
+                            "Работа в одиночку"
+                        ],
+                        correct: 1,
+                        explanation: "Безопасное поведение включает соблюдение инструкций, правильное использование СИЗ, внимательность и ответственность."
+                    },
+                    {
+                        question: "Что такое горячие работы?",
+                        options: [
+                            "Работа при высокой температуре окружающей среды",
+                            "Работы с открытым огнем, нагревом, сваркой",
+                            "Работа в жаркий летний день",
+                            "Работа на кухне"
+                        ],
+                        correct: 1,
+                        explanation: "Горячие работы - это работы с открытым огнем, нагревом, сваркой, резкой металла и другие работы с повышенной пожарной опасностью."
+                    },
+                    {
+                        question: "Какие меры предосторожности при работе с химическими веществами?",
+                        options: [
+                            "Работать в хорошо проветриваемом помещении",
+                            "Использовать соответствующие СИЗ, знать свойства веществ, иметь инструкции",
+                            "Работать быстро и эффективно",
+                            "Просто быть осторожным"
+                        ],
+                        correct: 1,
+                        explanation: "При работе с химическими веществами необходимо использовать соответствующие СИЗ, знать свойства веществ, иметь инструкции и средства первой помощи."
+                    }
+                ];
+            }
+
+            setupEventListeners() {
+                document.addEventListener('keydown', (e) => {
+                    if (this.testStarted && !this.testCompleted) {
+                        if (e.key >= '1' && e.key <= '4') {
+                            const optionIndex = parseInt(e.key) - 1;
+                            this.selectAnswer(optionIndex);
+                        } else if (e.key === 'Enter') {
+                            this.nextQuestion();
+                        }
+                    }
+                });
+            }
+
+            startTest() {
+                this.testStarted = true;
+                this.currentQuestion = 0;
+                this.answers = [];
+                
+                document.getElementById('startScreen').classList.add('hidden');
+                document.getElementById('testProgress').classList.remove('hidden');
+                document.getElementById('questionCard').classList.remove('hidden');
+                document.getElementById('totalQuestion').textContent = this.questions.length;
+                
+                this.showQuestion();
+                this.updateProgress();
+            }
+
+            showQuestion() {
+                const question = this.questions[this.currentQuestion];
+                
+                document.getElementById('questionNumber').textContent = `${this.currentQuestion + 1}.`;
+                document.getElementById('questionText').textContent = question.question;
+                
+                const optionsContainer = document.getElementById('answerOptions');
+                optionsContainer.innerHTML = '';
+                
+                question.options.forEach((option, index) => {
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'answer-option p-4 border-2 border-gray-200 rounded-lg';
+                    optionElement.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mr-4 text-sm font-semibold">
+                                ${String.fromCharCode(65 + index)}
+                            </div>
+                            <span>${option}</span>
+                        </div>
+                    `;
+                    
+                    optionElement.addEventListener('click', () => this.selectAnswer(index));
+                    optionsContainer.appendChild(optionElement);
+                });
+                
+                // Update navigation buttons
+                document.getElementById('prevBtn').disabled = this.currentQuestion === 0;
+                document.getElementById('nextBtn').textContent = 
+                    this.currentQuestion === this.questions.length - 1 ? 'Завершить тест' : 'Следующий';
+                
+                // Animate question card
+                anime({
+                    targets: '#questionCard',
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 500,
+                    easing: 'easeOutQuad'
+                });
+            }
+
+            selectAnswer(answerIndex) {
+                // Remove previous selections
+                document.querySelectorAll('.answer-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // Mark selected answer
+                const selectedOption = document.querySelectorAll('.answer-option')[answerIndex];
+                selectedOption.classList.add('selected');
+                
+                // Store answer
+                this.answers[this.currentQuestion] = answerIndex;
+            }
+
+            nextQuestion() {
+                if (this.answers[this.currentQuestion] === undefined) {
+                    this.showNotification('Пожалуйста, выберите ответ перед переходом к следующему вопросу.');
+                    return;
+                }
+                
+                if (this.currentQuestion < this.questions.length - 1) {
+                    this.currentQuestion++;
+                    this.showQuestion();
+                    this.updateProgress();
+                } else {
+                    this.completeTest();
+                }
+            }
+
+            previousQuestion() {
+                if (this.currentQuestion > 0) {
+                    this.currentQuestion--;
+                    this.showQuestion();
+                    this.updateProgress();
+                }
+            }
+
+            updateProgress() {
+                const progress = ((this.currentQuestion + 1) / this.questions.length) * 100;
+                document.getElementById('progressBar').value = this.currentQuestion;
+                document.getElementById('currentQuestion').textContent = this.currentQuestion + 1;
+                document.getElementById('totalQuestions').textContent = this.questions.length;
+            }
+
+            completeTest() {
+                this.testCompleted = true;
+                
+                // Calculate score
+                let correctAnswers = 0;
+                this.questions.forEach((question, index) => {
+                    if (this.answers[index] === question.correct) {
+                        correctAnswers++;
+                    }
+                });
+                
+                const score = Math.round((correctAnswers / this.questions.length) * 100);
+                
+                // Hide question card and show results
+                document.getElementById('questionCard').classList.add('hidden');
+                document.getElementById('testProgress').classList.add('hidden');
+                document.getElementById('resultsCard').classList.remove('hidden');
+                
+                // Display results
+                this.displayResults(score, correctAnswers);
+            }
+
+            displayResults(score, correctAnswers) {
+                const resultIcon = document.getElementById('resultIcon');
+                const resultTitle = document.getElementById('resultTitle');
+                const resultMessage = document.getElementById('resultMessage');
+                const certificateBtn = document.getElementById('certificateBtn');
+                
+                // Update score displays
+                document.getElementById('scoreDisplay').textContent = `${score}%`;
+                document.getElementById('correctCount').textContent = `${correctAnswers}/${this.questions.length}`;
+                
+                if (score >= 80) {
+                    // Success
+                    resultIcon.innerHTML = `
+                        <svg class="w-12 h-12 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                    `;
+                    resultTitle.textContent = 'Поздравляем!';
+                    resultMessage.textContent = 'Вы успешно прошли тестирование и можете получить сертификат.';
+                    certificateBtn.classList.remove('hidden');
+                } else {
+                    // Failure
+                    resultIcon.innerHTML = `
+                        <svg class="w-12 h-12 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                        </svg>
+                    `;
+                    resultTitle.textContent = 'Тест не пройден';
+                    resultMessage.textContent = 'К сожалению, вы не набрали проходной балл. Попробуйте еще раз.';
+                    certificateBtn.classList.add('hidden');
+                }
+                
+                    // Animate results
+                    anime({
+                        targets: '#resultsCard',
+                        opacity: [0, 1],
+                        translateY: [30, 0],
+                        duration: 800,
+                        easing: 'easeOutQuad'
+                    });
+                }
+
+            downloadCertificate() {
+                this.showNotification('Сертификат подготавливается к скачиванию...');
+                
+                // Simulate PDF generation
+                setTimeout(() => {
+                    this.showNotification('Сертификат готов! Проверьте загрузки.');
+                }, 2000);
+            }
+
+            restartTest() {
+                this.testStarted = false;
+                this.testCompleted = false;
+                this.currentQuestion = 0;
+                this.answers = [];
+                
+                document.getElementById('resultsCard').classList.add('hidden');
+                document.getElementById('certificateCard').classList.add('hidden');
+                document.getElementById('startScreen').classList.remove('hidden');
+            }
+
+            showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-20 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+                notification.textContent = message;
+                document.body.appendChild(notification);
+
+                anime({
+                    targets: notification,
+                    translateX: [300, 0],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutQuad',
+                    complete: () => {
+                        setTimeout(() => {
+                            anime({
+                                targets: notification,
+                                translateX: [0, 300],
+                                opacity: [1, 0],
+                                duration: 300,
+                                easing: 'easeInQuad',
+                                complete: () => notification.remove()
+                            });
+                        }, 2000);
+                    }
+                });
+            }
+        }
+
+        // Initialize test application
+        const testApp = new SafetyTestApp();
+    </script>
+</body>
+</html>
