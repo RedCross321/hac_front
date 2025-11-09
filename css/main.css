@@ -18,6 +18,10 @@
     src: url(../fonts/Comfortaa.woff2);
 }
 
+html {
+     scrollbar-color: #333333 #121212;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -286,4 +290,26 @@ a {
         margin-top: -50px;
     }
 
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.message-bubble {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.message-bubble.user {
+    flex-direction: row-reverse;
+}
+
+.message-bubble .bg-blue-100,
+.message-bubble .bg-gray-100 {
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }

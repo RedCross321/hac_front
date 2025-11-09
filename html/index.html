@@ -32,19 +32,20 @@
     <div class="main-content">
         <button onclick="openSidebar()" class="hamburger" id="hamburger">☰</button>
         <div class="overlay" id="overlay"></div>
+        <div id="chatMessages" class="chat-container" style="display: none; margin-top: 20px; max-height: 400px; overflow-y: auto; padding: 10px;"></div>
 
         <img class="hero-logo" src="../media/main-logo.png" alt="main-logo">
         <div class="slogan">Генерируем безопасность по запросу</div>
         <div class="search-container">
-            <input type="text" class="search-input" placeholder="Найти">
+            <input type="text" class="search-input" placeholder="Найти" id="messageInput" >
 
             <div class="search-tools">
 
                 <div class="right-tools">
-                    <button class="tool-btn">
+                    <button class="tool-btn" id="voiceBtn">
                         <img class="icon-input" src="../media/micro.jpg" alt="micro">
                     </button>
-                    <button class="tool-btn active">
+                    <button class="tool-btn active" onclick="sendMessage()">
                         <img class="icon-input" src="../media/arrow.jpg" alt="enter">
                     </button>
                 </div>
